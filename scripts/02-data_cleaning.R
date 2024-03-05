@@ -1,35 +1,41 @@
-#### Preamble ####
-# Purpose: Cleans the simulated data
+# Purpose: Analyze missing data in penguins dataset
 # Author: Shivank Goel
-# Date: 23rd February 2024
+# Date: 3rd March 2024
 # Contact: shivankg.goel@mail.utoronto.ca 
 # License: MIT
 
 library(tidyverse)
 library(dplyr)
+library(janitor)
+library(palmerpenguins)
 
-# Read the simulated data (assuming it's saved as 'simulated_data.csv')
-simulated_data <- read_csv("outputs/data/simulated_data.csv")
+# Read the penguins data
+penguins_data_csv <- read_csv("inputs/data/penguins_data.csv")
 
-# Cleaning the data
+# Additionally, load and clean the data again from the palmerpenguins package
+penguins_data =  clean_names(penguins_data) 
 
-# Step 1: Change half of the negative draws to be positive
-# Identify the negative observations
-negative_indices <- which(simulated_data$Observation < 0)
+# Identifying and handling outliers
+# Assuming bill length less than 30mm and greater than 60mm as outliers for this example
+penguins_data <- penguins_data %>% 
+  filter(bill_length_mm > 30, bill_length_mm < 60)
 
-# Randomly select half of the negative indices
-set.seed(123)  # For reproducibility
-selected_negatives <- sample(negative_indices, length(negative_indices) / 2)
+# Checking for duplicate rows and removing them
+penguins_data <- penguins_data %>% 
+  distinct()
 
-# Change selected negative values to positive
-simulated_data$Observation[selected_negatives] <- abs(simulated_data$Observation[selected_negatives])
+# Checking for any illogical values or errors
+# Ensuring sex is either male, female, or NA
+penguins_data <- penguins_data %>%
+  mutate(sex = case_when(
+    sex %in% c("male", "female") ~ sex,
+    TRUE ~ NA_character_
+  ))
 
-# Step 2: Change the decimal place on values between 1 and 1.1
-# Identify the observations between 1 and 1.1
-decimal_change_indices <- which(simulated_data$Observation >= 1 & simulated_data$Observation <= 1.1)
 
-# Change the decimal place of these observations
-simulated_data$Observation[decimal_change_indices] <- simulated_data$Observation[decimal_change_indices] / 10
 
-# Output the cleaned data
-write_csv(simulated_data, "outputs/data/cleaned_simulated_data.csv")
+#### Save data ####
+write_csv(penguins_data, "outputs/data/cleaned_penguins_data.csv")
+
+# Displaying the first few rows of the cleaned data
+head(penguins_data)

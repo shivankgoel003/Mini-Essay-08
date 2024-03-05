@@ -9,6 +9,8 @@
 .Rhistory
 .Rapp.history
 
+airbnb_data.csv
+
 # Session Data files
 .RData
 

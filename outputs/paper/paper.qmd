@@ -1,11 +1,11 @@
 ---
-title: "Impact of Data Errors on Statisitcal Analyses"
+title: "Statistical Analysis of Missing Data in the Penguins Dataset"
 author: 
   - Shivank  Goel
 thanks: "Code and data are available at: https://github.com/shivankgoel003/Simulation-of-Data-with-Instrument-and-Human-Errors"
 date: today
 date-format: long
-abstract: "This paper explores the consequences and impact of instrument and human errors in data collection and processing, using a simulated dataset. The actual process that produces the data, assumed to follow a Normal distribution with a mean of one and a standard deviation of one. This data was first simulated, however, the instrument used for data collection had an issue. It resulted in last 100 observations being overwritten by the first 100. Additionally, during data cleaning, negative values were mistakenly changed to positive, and decimal places were incorrectly moved for values between 1 and 1.1. The study examines the impact of these errors on the dataset's mean and discuss strategies to detect and address such kind of mistakes in real-world scenarios."
+abstract: "This paper looks at missing data in one of the columns, 'the bill_length_mm',  part of the penguins dataset. Our main goal was to see how missing information affects our understanding of the data. We took out some data on purpose, then used different methods to guess the missing numbers and checked how close these guesses were to the real numbers. This study helps us understand how missing information can change what we think we know from data and tests different ways to fill in these gaps."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -19,22 +19,26 @@ bibliography: references.bib
 library(tidyverse)
 library(here)
 library(kableExtra)
-cleaned_data <- read_csv(here::here("outputs/data/cleaned_simulated_data.csv"))
+cleaned_data <- read_csv(here::here("outputs/data/cleaned_penguins_data.csv"))
 
 ```
 
 
 # Introduction
 
-Data integrity is crucial in statistical analysis, but various factors, including instrument limitations and human errors, can compromise this integrity. Ethical guidelines for Statistical Practice by American Statistical Association states: "Integrity of Data and Methods: The ethical statistical practitioner seeks to understand and mitigate known or suspected limitations, defects, or biases in the data or methods and communicates potential impacts on the interpretation, conclusions, recommendations, decisions, or other results of statistical practices." [@ASA]. This study simulates a scenario where both types of errors occur, reflecting common issues in data collection and processing. The objective is to assess the impact of these errors on statistical outcomes and propose measures to detect and prevent such discrepancies. 
+The challenge of missing data in statistical analysis is a critical issue that can significantly impact the results and interpretations. "Although missing data clearly lead to a loss of information and hence reduced statistical power, a more insidious consequence is that this lack of data may introduce selection bias, which could potentially invalidate the entire study", marks researcher T. Frisell. [@BMJ]
+We discuss the importance of handling missing data and the implications of different imputation methods by 
+considering "bill_length_mm" variable of the penguins dataset.
 
 
 This paper is structured as follows. In the Data Section, we denote how data was generated and processed. In the Results Section we dive into the findings we discovered following the cleaned data after simulation. In the Discussion Section, we address biases and weaknesses in the data that contribute to our findings, and how we approached.The last section is Conclusion and Acknowledgements.
 
 
 # Data {#sec-data}
-
-The data was generated to represent a Normal distribution (mean = 1, SD = 1) with 1,000 observations. Due to instrument limitations, the last 100 observations were overwritten by the first 100. During data cleaning, half of the negative values were altered to positive, and values between 1 and 1.1 had their decimal places shifted. The R programming language [@citeR] was used for both data simulation and cleaning processes. A sample of cleaned state score data can be seen in [@tbl-cleaned-data].
+The penguins dataset, which is available from the palmerpenguins package [@palmerpenguins], provides a source of biological measurements of three penguin species. After cleaning the data initially, which included standardizing column names and filtering missing values, we focused on the "bill_length_mm" variable. This variable was chosen since it is important in identification and variation studie of penguin species.
+ The R programming language [@citeR] was used for both data simulation and cleaning processes. A sample of cleaned state score data can be seen in [@tbl-cleaned-data].
+ 
+ We simulated this data, by removing some random part of the "bill_length_mm" data on purpose. Then, we used a few different ways to guess these missing numbers, for example, computing the average.
 
 ```{r}
 #| label: tbl-cleaned-data
@@ -53,24 +57,36 @@ head(cleaned_data, 6) %>%
 
 
 ```
-# Results
-The cleaned data exhibited a mean value slightly deviating from the true mean of the original distribution. This deviation can be due to overwriting and data cleaning steps. The overwriting error created a repetition in the dataset, resulting in reducing its variability and leading to biased estimates. The cleaning errors further changed the data, particularly the decimal shift, which significantly altered the values within a specific range.
+# Results and Discussion
+The histogram of the "bill_length_mm"  variable [@fig-marks] shows the distribution of bill lengths in the penguin dataset. It is crucial for understanding the range and common values of bill lengths before any data manipulation. It reveals a normal distribution with slight skewness. The most frequent bill lengths cluster around a specific range, indicating a common characteristic size among the studied penguin species. The tails of the distribution show less frequent occurrences of unusually short or long bills, which could be characteristic of specific species or individual variations.
+
+```{r}
+#| label: fig-marks
+#| fig-cap: "Original Distribution of Bill Length in Penguins"
+#| message: false
+#| echo: false
+
+library(ggplot2)
+library(dplyr)
 
 
-# Discussion
 
-The study highlights the possibility of measurement errors in statistical analysis in data collection and processing. Instrument limitations, such as memory constraints, can lead to significant data loss or other issues, as seen in the overwriting error. Human errors during data cleaning, often due to oversight, can further lead to errors in data processing.
-
-Therefore, in order to reduce these errors, it is essential to perform checks for instrument and other possible flaws in data. A validation or testing step in the data cleaning process, can help identify and correct errors. Furthermore, training and clear documentation for data handling are crucial.
+# Plotting the original bill_length_mm distribution
+ggplot(cleaned_data, aes(x = bill_length_mm)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  theme_minimal()
+```
 
 # Conclusion and Acknowledgements
-This study highlights the importance of  integrity in data collection and processing. Understanding the nature and impact of errors can improve the statisitical analyses and ensure more accurate findings.
+This study highlights the role of integrity in data collection and processing. By understanding the nature of errors, we can significantly enhance the accuracy and reliability of our statistical analyses. 
 
 Special thanks to Vanshika Vanshika for peer review and providing essential feedback and suggestions.
 
 
-\newpage
 
+
+
+\newpage
 
 # References
 
