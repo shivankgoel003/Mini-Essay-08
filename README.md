@@ -1,8 +1,10 @@
-# Starter folder
-
+# Statistical Analysis of Missing Data in the Penguins Dataset
 ## Overview
 
 This repository contains the data, scripts, and analyses for a study on the "bill_length_mm" variable in the penguins dataset from the palmerpenguins package. The primary focus is on handling missing data, imputing these values, and comparing the imputed data with the actual values.
+
+
+Language Learning Model ChatGPT was also used while writing this research paper. It was used for the purpose of introduction and data cleaning and simulation. The chat with the AI bot is also attached as a reference under `inputs\llm`
 ## File Structure
 
 The repo is structured as:
