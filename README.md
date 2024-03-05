@@ -2,10 +2,7 @@
 
 ## Overview
 
-This repo provides students with a foundation for their own projects associated with *Telling Stories with Data*. You do not need every aspect for every paper and you should delete aspects that you do not need.
-
-To use this folder, click the green "Code" button", then "Download ZIP". Move the downloaded folder to where you want to work on your own computer, and then modify it to suit.
-
+This repository contains the data, scripts, and analyses for a study on the "bill_length_mm" variable in the penguins dataset from the palmerpenguins package. The primary focus is on handling missing data, imputing these values, and comparing the imputed data with the actual values.
 ## File Structure
 
 The repo is structured as:
