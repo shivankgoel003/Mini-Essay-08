@@ -24,6 +24,7 @@ cleaned_data <- read_csv(here::here("outputs/data/cleaned_penguins_data.csv"))
 ```
 
 
+
 # Introduction
 
 The challenge of missing data in statistical analysis is a critical issue that can significantly impact the results and interpretations. "Although missing data clearly lead to a loss of information and hence reduced statistical power, a more insidious consequence is that this lack of data may introduce selection bias, which could potentially invalidate the entire study", marks researcher T. Frisell. [@BMJ]
@@ -39,6 +40,7 @@ The penguins dataset, which is available from the palmerpenguins package [@palme
  The R programming language [@citeR] was used for both data simulation and cleaning processes. A sample of cleaned state score data can be seen in [@tbl-cleaned-data].
  
  We simulated this data, by removing some random part of the "bill_length_mm" data on purpose. Then, we used a few different ways to guess these missing numbers, for example, computing the average.
+
 
 ```{r}
 #| label: tbl-cleaned-data
@@ -57,8 +59,10 @@ head(cleaned_data, 6) %>%
 
 
 ```
+
 # Results and Discussion
 The histogram of the "bill_length_mm"  variable [@fig-marks] shows the distribution of bill lengths in the penguin dataset. It is crucial for understanding the range and common values of bill lengths before any data manipulation. It reveals a normal distribution with slight skewness. The most frequent bill lengths cluster around a specific range, indicating a common characteristic size among the studied penguin species. The tails of the distribution show less frequent occurrences of unusually short or long bills, which could be characteristic of specific species or individual variations.
+
 
 ```{r}
 #| label: fig-marks
@@ -75,6 +79,7 @@ ggplot(cleaned_data, aes(x = bill_length_mm)) +
   theme_minimal()
 ```
 
+
 # Conclusion and Acknowledgements
 This study highlights the role of integrity in data collection and processing. By understanding the nature of errors, we can significantly enhance the accuracy and reliability of our statistical analyses. 
 
@@ -87,5 +92,6 @@ Special thanks to Vanshika Vanshika for peer review and providing essential feed
 \newpage
 
 # References
+
 
 
